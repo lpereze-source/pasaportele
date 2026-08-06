@@ -183,7 +183,7 @@ function openMissionModal(mission) {
 
     ${done
       ? `<div class="already-done">✓ Misión completada</div>`
-      : `<button class="btn-complete" id="completeBtn">Ya terminé la actividad — ¡Marcar como completada!</button>`
+      : `<button class="art-btn btn-complete" id="completeBtn">Ya terminé la actividad — ¡Marcar como completada!</button>`
     }
   `;
 
@@ -242,10 +242,11 @@ function showToast(msg) {
 
 // ---------- Reset ----------
 document.getElementById("resetBtn").addEventListener("click", () => {
-  if (confirm("¿Reiniciar todo el progreso del pasaporte?")) {
+  if (confirm("¿Reiniciar todo el progreso del pasaporte? Esto también volverá a mostrar el video de bienvenida.")) {
     state = { completed: [], xp: 0, coins: 0 };
     saveState();
-    renderAll();
+    localStorage.removeItem(GATE_KEY);
+    location.reload();
   }
 });
 
