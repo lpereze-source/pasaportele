@@ -37,7 +37,7 @@ const MISSIONS = [
     },
     badgeName: "Explorador de Saludos",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge1.png",
     xp: 100
   },
   {
@@ -61,7 +61,7 @@ const MISSIONS = [
     },
     badgeName: "Experto en Familia",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge2.png",
     xp: 100
   },
   {
@@ -76,7 +76,7 @@ const MISSIONS = [
     reto: { type: "link", label: "Emparejar alimentos", url: "https://interacty.me/projects/9bef57022aea22b3", instructions: "Relaciona cada imagen con el alimento correcto." },
     badgeName: "Chef del Español",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge3.png",
     xp: 100
   },
   {
@@ -91,7 +91,7 @@ const MISSIONS = [
     reto: { type: "link", label: "Vamos de compras (Educaplay)", url: "https://es.educaplay.com/recursos-educativos/30066114-vamos_de_compras.html" },
     badgeName: "Comprador Inteligente",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge4.png",
     xp: 100
   },
   {
@@ -110,7 +110,7 @@ const MISSIONS = [
     },
     badgeName: "Guía Turístico",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge5.png",
     xp: 100
   },
   {
@@ -133,7 +133,7 @@ const MISSIONS = [
     },
     badgeName: "Maestro del Tiempo",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge6.png",
     xp: 100
   },
   {
@@ -152,7 +152,7 @@ const MISSIONS = [
     },
     badgeName: "Meteorólogo ELE",
     badgeEmoji: "🥇",
-    badgeImg: "assets/ribbon.png",
+    badgeImg: "assets/badge7.png",
     xp: 100
   },
   {
@@ -163,15 +163,15 @@ const MISSIONS = [
     position: { top: 80, left: 46 },
     vocab: ["🎧 Listening", "💬 Reading", "✍️ Writing", "🎙️ Speaking"],
     aprende: { type: "video", label: "Video: gran desafío final", embedUrl: "https://www.youtube.com/embed/zgLGDfyD-SQ" },
-    practica: null,
-    reto: {
+    practica: {
       type: "link",
-      label: "Quiz práctico (Canva)",
+      label: "Práctica (Canva)",
       url: "https://passporttravelenglishadventure.my.canva.site/aventura-del-vocabulario-en-espa-ol"
     },
+    reto: null,
     badgeName: "Maestro del Español A1",
     badgeEmoji: "👑",
-    badgeImg: "assets/crown.png",
+    badgeImg: "assets/badge8.png",
     xp: 200,
     isFinal: true
   }
