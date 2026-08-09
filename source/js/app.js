@@ -209,6 +209,7 @@ function completeMission(mission) {
   saveState();
   closeModal();
   renderAll(mission.id);
+  walkNicoTo(mission);
   burstConfetti();
   showToast(`${mission.badgeEmoji} ¡Insignia "${mission.badgeName}" conseguida! +${mission.xp} XP`);
 }
@@ -273,6 +274,61 @@ if (introVideoBtn) {
 }
 
 renderAll();
+
+// ---------- Nico avatar: stands at your current progress ----------
+const NICO_OFFSET = { left: 9, top: 5 }; // nudge beside the node badge, not on top of it
+
+function currentNicoMission() {
+  if (state.completed.length === 0) return MISSIONS[0];
+  const maxId = Math.max(...state.completed);
+  return MISSIONS.find(m => m.id === maxId);
+}
+
+function setNicoPosition(mission) {
+  const el = document.getElementById("nicoAvatar");
+  el.style.left = (mission.position.left + NICO_OFFSET.left) + "%";
+  el.style.top = (mission.position.top + NICO_OFFSET.top) + "%";
+}
+
+function initNico() {
+  const el = document.getElementById("nicoAvatar");
+  const prevTransition = el.style.transition;
+  el.style.transition = "none";
+  el.src = "assets/nico-idle.png";
+  setNicoPosition(currentNicoMission());
+  void el.offsetWidth; // force reflow so the "none" transition actually applies
+  el.style.transition = prevTransition;
+}
+
+function walkNicoTo(mission) {
+  const el = document.getElementById("nicoAvatar");
+  let frame = 0;
+  const walkTimer = setInterval(() => {
+    el.src = frame % 2 === 0 ? "assets/nico-walk1.png" : "assets/nico-walk2.png";
+    frame++;
+  }, 160);
+  setNicoPosition(mission);
+  setTimeout(() => {
+    clearInterval(walkTimer);
+    el.src = "assets/nico-celebrate.png";
+    setTimeout(() => { el.src = "assets/nico-idle.png"; }, 900);
+  }, 1150);
+}
+
+initNico();
+
+// ---------- Luma: ambient idle animation on the map ----------
+const LUMA_IDLE_FRAMES = ["assets/luma-idle1.png", "assets/luma-idle2.png", "assets/luma-idle3.png"];
+(function startLuma() {
+  const el = document.getElementById("lumaAvatar");
+  el.style.left = "83%";
+  el.style.top = "6%";
+  let i = 0;
+  setInterval(() => {
+    i = (i + 1) % LUMA_IDLE_FRAMES.length;
+    el.src = LUMA_IDLE_FRAMES[i];
+  }, 700);
+})();
 
 // ---------- Intro video gate ----------
 // Requires watching the welcome video once per browser before the
