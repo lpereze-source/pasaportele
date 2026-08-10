@@ -113,14 +113,15 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  min-height: 56px;
-  padding: 9px 18px 11px;
-  border-style: solid;
-  border-width: 18px;
-  border-image-slice: 26 fill;
-  border-image-width: 18px;
-  border-image-repeat: stretch;
-  background: none;
+  min-height: 62px;
+  width: 100%;
+  padding: 15px 30px 16px;
+  border: 0;
+  border-radius: 12px;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   line-height: 1.08;
   text-shadow: 0 2px 1px rgba(0,0,0,.25);
   transition: filter .16s, transform .16s, box-shadow .16s;
@@ -128,8 +129,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 .art-btn:hover { filter: brightness(1.12) saturate(1.08); transform: translateY(-2px); }
 .art-btn:active { transform: translateY(2px); filter: brightness(.95); }
 
-.btn-start { border-image-source: url('../assets/plank-green.png'); }
-.btn-video { border-image-source: url('../assets/plank-teal.png'); }
+.btn-start { background-image: url('../assets/plank-green.png'); }
+.btn-video { background-image: url('../assets/plank-teal.png'); }
 
 
 .mascot-card {
@@ -342,7 +343,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 .stamp-slot img { width: 68%; height: 68%; object-fit: contain; filter: drop-shadow(0 1px 1px rgba(0,0,0,.3)); }
 .stamp-slot.filled img {
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   border-radius: 50%;
   filter: none;
@@ -502,7 +503,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   margin-top: 8px;
   font-size: 1rem;
 }
-.btn-complete { border-image-source: url('../assets/plank-orange.png'); }
+.btn-complete { background-image: url('../assets/plank-orange.png'); }
 .already-done {
   text-align: center;
   font-family: var(--font-display);
@@ -557,7 +558,6 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 @keyframes nico-arrival { 0% { transform: translate(-50%,-96%) scale(1); } 45% { transform: translate(-50%,-106%) scale(1.14); } 100% { transform: translate(-50%,-96%) scale(1); } }
 @keyframes luma-float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
 @keyframes reward-pop { 0% { opacity:0; transform:translate(-50%,-50%) scale(.52) rotate(-5deg); } 18%,76% { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0); } 100% { opacity:0; transform:translate(-50%,-58%) scale(.92); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 
 /* ---------- Intro video gate ---------- */
 #appRoot { display: none; }

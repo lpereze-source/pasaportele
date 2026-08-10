@@ -330,12 +330,15 @@ function walkNicoTo(mission) {
   // and animate the movement with CSS instead.
   el.src = "assets/nico-idle.png";
   el.classList.add("walking");
-  setNicoPosition(mission);
+  // Apply the destination on the next paint. This prevents browsers from
+  // coalescing the two positions and making Nico appear to teleport.
+  el.style.transition = "left 2.25s cubic-bezier(.22,.8,.2,1), top 2.25s cubic-bezier(.22,.8,.2,1)";
+  requestAnimationFrame(() => requestAnimationFrame(() => setNicoPosition(mission)));
   setTimeout(() => {
     el.classList.remove("walking");
     el.classList.add("arrived");
     setTimeout(() => el.classList.remove("arrived"), 520);
-  }, 1150);
+  }, 2300);
 }
 
 initNico();
