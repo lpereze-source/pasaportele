@@ -309,8 +309,12 @@ function nextNicoMission(mission) {
 
 function setNicoPosition(mission) {
   const el = document.getElementById("nicoAvatar");
-  el.style.left = (mission.position.left + NICO_OFFSET.left) + "%";
-  el.style.top = (mission.position.top + NICO_OFFSET.top) + "%";
+  const left = mission.position.left + NICO_OFFSET.left;
+  const top = mission.position.top + NICO_OFFSET.top;
+  el.style.left = left + "%";
+  el.style.top = top + "%";
+  el.dataset.mapLeft = left;
+  el.dataset.mapTop = top;
 }
 
 function initNico() {
@@ -330,15 +334,30 @@ function walkNicoTo(mission) {
   // and animate the movement with CSS instead.
   el.src = "assets/nico-idle.png";
   el.classList.add("walking");
-  // Apply the destination on the next paint. This prevents browsers from
-  // coalescing the two positions and making Nico appear to teleport.
-  el.style.transition = "left 2.25s cubic-bezier(.22,.8,.2,1), top 2.25s cubic-bezier(.22,.8,.2,1)";
-  requestAnimationFrame(() => requestAnimationFrame(() => setNicoPosition(mission)));
-  setTimeout(() => {
+  const fromLeft = Number(el.dataset.mapLeft);
+  const fromTop = Number(el.dataset.mapTop);
+  const toLeft = mission.position.left + NICO_OFFSET.left;
+  const toTop = mission.position.top + NICO_OFFSET.top;
+  const duration = 2300;
+  const startedAt = performance.now();
+  el.style.transition = "none";
+
+  function moveNico(now) {
+    const progress = Math.min(1, (now - startedAt) / duration);
+    const eased = progress < .5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    el.style.left = (fromLeft + (toLeft - fromLeft) * eased) + "%";
+    el.style.top = (fromTop + (toTop - fromTop) * eased) + "%";
+    if (progress < 1) {
+      requestAnimationFrame(moveNico);
+      return;
+    }
+    el.dataset.mapLeft = toLeft;
+    el.dataset.mapTop = toTop;
     el.classList.remove("walking");
     el.classList.add("arrived");
     setTimeout(() => el.classList.remove("arrived"), 520);
-  }, 2300);
+  }
+  requestAnimationFrame(moveNico);
 }
 
 initNico();

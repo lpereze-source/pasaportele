@@ -338,7 +338,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   background: var(--wood-dark);
   opacity: 1;
   box-shadow: 0 3px 0 var(--wood-dark);
-  overflow: hidden;
+  overflow: visible;
 }
 .stamp-slot img { width: 68%; height: 68%; object-fit: contain; filter: drop-shadow(0 1px 1px rgba(0,0,0,.3)); }
 .stamp-slot.filled img {
@@ -348,6 +348,9 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   border-radius: 50%;
   filter: none;
 }
+/* The first illustration includes a speech bubble on purpose. Let it break
+   the circular seal slightly instead of cropping its greeting. */
+.stamp-slot.filled:first-child img { width: 124%; height: 124%; max-width: none; max-height: none; transform: translate(3%, -2%); }
 .stamp-slot.stamp-pop { animation: stamp-in .5s cubic-bezier(.3,1.6,.5,1); }
 @keyframes stamp-in {
   0%   { transform: scale(2.4) rotate(-25deg); opacity: 0; }
@@ -558,6 +561,17 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 @keyframes nico-arrival { 0% { transform: translate(-50%,-96%) scale(1); } 45% { transform: translate(-50%,-106%) scale(1.14); } 100% { transform: translate(-50%,-96%) scale(1); } }
 @keyframes luma-float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
 @keyframes reward-pop { 0% { opacity:0; transform:translate(-50%,-50%) scale(.52) rotate(-5deg); } 18%,76% { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0); } 100% { opacity:0; transform:translate(-50%,-58%) scale(.92); } }
+
+/* Cache-proof final button treatment: each button uses one complete plank,
+   so its painted end caps can never separate from its text area. */
+.art-btn {
+  border: 0 !important;
+  border-image: none !important;
+  box-sizing: border-box !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
 
 /* ---------- Intro video gate ---------- */
 #appRoot { display: none; }
