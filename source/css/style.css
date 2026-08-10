@@ -104,9 +104,9 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   cursor: pointer;
   padding: 11px 18px 13px;
   border-style: solid;
-  border-width: 16px;
-  border-image-slice: 16 fill;
-  border-image-width: 16px;
+  border-width: 18px;
+  border-image-slice: 26 fill;
+  border-image-width: 18px;
   border-image-repeat: stretch;
   background: none;
   transition: filter .12s, transform .08s;
@@ -114,8 +114,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 .art-btn:hover { filter: brightness(1.1); }
 .art-btn:active { transform: translateY(2px); filter: brightness(.95); }
 
-.btn-start { border-image-source: url('../assets/btn-secondary.png'); }
-.btn-video { border-image-source: url('../assets/btn-primary.png'); }
+.btn-start { border-image-source: url('../assets/plank-green.png'); }
+.btn-video { border-image-source: url('../assets/plank-teal.png'); }
 
 
 .mascot-card {
@@ -463,7 +463,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   margin-top: 8px;
   font-size: 1rem;
 }
-.btn-complete { border-image-source: url('../assets/btn-confirm.png'); }
+.btn-complete { border-image-source: url('../assets/plank-orange.png'); }
 .already-done {
   text-align: center;
   font-family: var(--font-display);
@@ -552,7 +552,7 @@ body.gate-passed #introGate { display: none; }
   cursor: pointer;
 }
 .gate-btn:disabled {
-  border-image-source: url('../assets/btn-disabled.png');
+  border-image-source: url('../assets/plank-gray.png');
   color: #eee;
   cursor: not-allowed;
   filter: none;
