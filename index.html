@@ -6,19 +6,39 @@
 <title>Pasaporte ELE — La aventura del español A1</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=7">
+<link rel="stylesheet" href="css/style.css?v=8">
 </head>
 <body>
 
 <div class="intro-gate" id="introGate">
-  <div class="intro-gate-inner">
-    <h1>🧭 ¡Bienvenido, Explorador!</h1>
-    <p>Antes de comenzar tu aventura, mira este video de bienvenida.</p>
-    <div class="gate-video-wrap">
-      <div id="gateYtPlayer"></div>
+  <div class="passport-stage" id="passportStage">
+    <button class="passport-cover" id="openPassportBtn" type="button" aria-label="Abrir el pasaporte de bienvenida">
+      <span class="cover-emblem">🧭</span>
+      <span class="cover-title">PASAPORTE<br>ELE</span>
+      <span class="cover-subtitle">La aventura del español</span>
+      <span class="cover-action">Toca para abrir</span>
+    </button>
+    <div class="intro-gate-inner passport-book" aria-live="polite">
+      <div class="passport-page passport-page-left" aria-hidden="true">
+        <span class="page-stamp">✦</span>
+        <h2>Mi gran aventura</h2>
+        <p>Un pasaporte para descubrir el español, una misión a la vez.</p>
+        <div class="page-route">● ─── ● ─── ★</div>
+      </div>
+      <div class="passport-page passport-page-right">
+        <h1>🧭 ¡Bienvenido, Explorador!</h1>
+        <p>Abre tu pasaporte y mira el mensaje de bienvenida antes de comenzar.</p>
+        <div class="phone-video-frame">
+          <span class="phone-speaker" aria-hidden="true"></span>
+          <div class="gate-video-wrap">
+            <div id="gateYtPlayer"></div>
+          </div>
+          <span class="phone-home" aria-hidden="true"></span>
+        </div>
+        <button id="gateContinueBtn" class="art-btn btn-start gate-btn" disabled>Mira el video completo para continuar</button>
+        <button id="gateSkipBtn" class="gate-skip">Ya lo vi, continuar →</button>
+      </div>
     </div>
-    <button id="gateContinueBtn" class="art-btn btn-start gate-btn" disabled>Mira el video completo para continuar</button>
-    <button id="gateSkipBtn" class="gate-skip">Ya lo vi, continuar →</button>
   </div>
 </div>
 
@@ -106,7 +126,7 @@
 </div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-<script src="js/missions-data.js?v=7"></script>
-<script src="js/app.js?v=7"></script>
+<script src="js/missions-data.js?v=8"></script>
+<script src="js/app.js?v=8"></script>
 </body>
 </html>

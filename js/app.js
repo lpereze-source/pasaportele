@@ -386,8 +386,12 @@ function passGate() {
 if (localStorage.getItem(GATE_KEY) === "1") {
   passGate();
 } else {
+  const passportStage = document.getElementById("passportStage");
+  const openPassportBtn = document.getElementById("openPassportBtn");
   const continueBtn = document.getElementById("gateContinueBtn");
   const skipBtn = document.getElementById("gateSkipBtn");
+
+  openPassportBtn.addEventListener("click", () => passportStage.classList.add("open"));
 
   function unlockContinue() {
     continueBtn.disabled = false;
