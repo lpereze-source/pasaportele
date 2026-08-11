@@ -113,14 +113,15 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   text-decoration: none;
   text-align: center;
   cursor: pointer;
-  min-height: 56px;
-  padding: 9px 18px 11px;
-  border-style: solid;
-  border-width: 18px;
-  border-image-slice: 26 fill;
-  border-image-width: 18px;
-  border-image-repeat: stretch;
-  background: none;
+  min-height: 62px;
+  width: 100%;
+  padding: 15px 30px 16px;
+  border: 0;
+  border-radius: 12px;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   line-height: 1.08;
   text-shadow: 0 2px 1px rgba(0,0,0,.25);
   transition: filter .16s, transform .16s, box-shadow .16s;
@@ -128,8 +129,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 .art-btn:hover { filter: brightness(1.12) saturate(1.08); transform: translateY(-2px); }
 .art-btn:active { transform: translateY(2px); filter: brightness(.95); }
 
-.btn-start { border-image-source: url('../assets/plank-green.png'); }
-.btn-video { border-image-source: url('../assets/plank-teal.png'); }
+.btn-start { background-image: url('../assets/plank-green.png'); }
+.btn-video { background-image: url('../assets/plank-teal.png'); }
 
 
 .mascot-card {
@@ -184,9 +185,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 .map-sparkle { position:absolute; width: 7px; height:7px; border-radius:50%; background:#fff8ba; box-shadow:0 0 0 3px rgba(255,248,186,.18), 0 0 15px 4px rgba(255,248,186,.58); animation: twinkle 2.6s ease-in-out infinite; }
 .sparkle-a { top: 32%; left: 18%; }.sparkle-b { top: 17%; right: 18%; animation-delay:.9s; }.sparkle-c { bottom: 19%; right: 12%; animation-delay:1.5s; }
 .map-fog { position: absolute; inset: -12%; opacity: .78; transition: opacity 1.1s ease, transform 1.2s ease; background: radial-gradient(ellipse at 20% 26%, rgba(246,252,248,.94) 0 9%, transparent 24%), radial-gradient(ellipse at 68% 36%, rgba(245,251,249,.85) 0 14%, transparent 30%), radial-gradient(ellipse at 42% 76%, rgba(244,250,248,.92) 0 12%, transparent 30%); filter: blur(14px); }
-.fog-far { opacity:.46; transform: scale(1.2); animation: fog-drift 17s ease-in-out infinite alternate; }
-.map-wrap[data-progress="1"] .fog-near { opacity:.60; }.map-wrap[data-progress="2"] .fog-near { opacity:.48; }.map-wrap[data-progress="3"] .fog-near { opacity:.37; }.map-wrap[data-progress="4"] .fog-near { opacity:.27; }.map-wrap[data-progress="5"] .fog-near { opacity:.18; }.map-wrap[data-progress="6"] .fog-near { opacity:.10; }.map-wrap[data-progress="7"] .fog-near, .map-wrap[data-progress="8"] .fog-near { opacity:0; transform:scale(1.18); }
-.map-wrap[data-progress="4"] .fog-far { opacity:.28; }.map-wrap[data-progress="6"] .fog-far { opacity:.13; }.map-wrap[data-progress="8"] .fog-far { opacity:0; }
+.fog-near { opacity: var(--fog-near-opacity, .78); }
+.fog-far { opacity: var(--fog-far-opacity, .42); transform: scale(1.2); animation: fog-drift 17s ease-in-out infinite alternate; }
 @keyframes drift { to { translate: 36px -9px; } }
 @keyframes fog-drift { to { transform: scale(1.28) translateX(2%); } }
 @keyframes twinkle { 0%,100% { transform:scale(.5); opacity:.25; } 50% { transform:scale(1.25); opacity:1; } }
@@ -201,11 +201,14 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   transition: left 1.1s ease-in-out, top 1.1s ease-in-out;
   pointer-events: none;
 }
+.nico-avatar.walking { animation: nico-walk-bob .24s ease-in-out infinite alternate; }
+.nico-avatar.arrived { animation: nico-arrival .52s cubic-bezier(.2,1.5,.45,1); }
 .luma-avatar {
   position: absolute;
   width: 7%;
   height: auto;
   z-index: 7;
+  transform-origin: center bottom;
   animation: luma-float 2.7s ease-in-out infinite;
   filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
   pointer-events: none;
@@ -335,16 +338,19 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   background: var(--wood-dark);
   opacity: 1;
   box-shadow: 0 3px 0 var(--wood-dark);
-  overflow: hidden;
+  overflow: visible;
 }
 .stamp-slot img { width: 68%; height: 68%; object-fit: contain; filter: drop-shadow(0 1px 1px rgba(0,0,0,.3)); }
 .stamp-slot.filled img {
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   border-radius: 50%;
   filter: none;
 }
+/* The first illustration includes a speech bubble on purpose. Let it break
+   the circular seal slightly instead of cropping its greeting. */
+.stamp-slot.filled:first-child img { width: 124%; height: 124%; max-width: none; max-height: none; transform: translate(3%, -2%); }
 .stamp-slot.stamp-pop { animation: stamp-in .5s cubic-bezier(.3,1.6,.5,1); }
 @keyframes stamp-in {
   0%   { transform: scale(2.4) rotate(-25deg); opacity: 0; }
@@ -488,8 +494,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   width: 9px; height: 9px;
   border-radius: 2px;
   pointer-events: none;
-  z-index: 70;
-  animation: confetti-fly .9s ease-out forwards;
+  z-index: 110;
+  animation: confetti-fly 1.2s cubic-bezier(.15,.75,.38,1) forwards;
 }
 @keyframes confetti-fly {
   0%   { transform: translate(0,0) rotate(0); opacity: 1; }
@@ -500,7 +506,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   margin-top: 8px;
   font-size: 1rem;
 }
-.btn-complete { border-image-source: url('../assets/plank-orange.png'); }
+.btn-complete { background-image: url('../assets/plank-orange.png'); }
 .already-done {
   text-align: center;
   font-family: var(--font-display);
@@ -530,6 +536,12 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 }
 .toast.show { bottom: 26px; }
 
+.reward-celebration { position: fixed; top: 45%; left: 50%; z-index: 105; width: min(360px, 86vw); padding: 18px 24px 17px; border: 4px solid var(--wood-dark); border-radius: 18px; background: linear-gradient(135deg, #fff4bb, #e6a93e); color: var(--wood-dark); text-align: center; box-shadow: 0 10px 0 rgba(64,34,12,.32), 0 18px 42px rgba(0,0,0,.35); opacity: 0; pointer-events: none; transform: translate(-50%,-50%) scale(.52) rotate(-5deg); }
+.reward-celebration p { margin: 0; font-family: var(--font-display); font-size: clamp(1.45rem, 4vw, 2.1rem); font-weight: 800; line-height: 1; text-shadow: 0 1px #fff2b3; }
+.reward-celebration span { display:block; margin-top:5px; font-size:.8rem; font-weight:800; }
+.reward-burst { position:absolute; left:-18px; top:-22px; color:#fff7aa; font-size:3.1rem; line-height:1; text-shadow: 0 0 12px #f8a82e; }
+.reward-celebration.show { animation: reward-pop 2.2s ease-in-out forwards; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1080px) {
   .layout { grid-template-columns: 1fr; }
@@ -545,8 +557,21 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   .topbar { padding: 12px 18px; }
 }
 
+@keyframes nico-walk-bob { from { transform: translate(-50%,-96%) translateY(0) rotate(-2deg); } to { transform: translate(-50%,-96%) translateY(-5px) rotate(2deg); } }
+@keyframes nico-arrival { 0% { transform: translate(-50%,-96%) scale(1); } 45% { transform: translate(-50%,-106%) scale(1.14); } 100% { transform: translate(-50%,-96%) scale(1); } }
 @keyframes luma-float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+@keyframes reward-pop { 0% { opacity:0; transform:translate(-50%,-50%) scale(.52) rotate(-5deg); } 18%,76% { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0); } 100% { opacity:0; transform:translate(-50%,-58%) scale(.92); } }
+
+/* Cache-proof final button treatment: each button uses one complete plank,
+   so its painted end caps can never separate from its text area. */
+.art-btn {
+  border: 0 !important;
+  border-image: none !important;
+  box-sizing: border-box !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
 
 /* ---------- Intro video gate ---------- */
 #appRoot { display: none; }

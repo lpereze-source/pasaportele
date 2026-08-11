@@ -65,7 +65,11 @@ function renderNodes() {
   svgPath.setAttribute("d", "M " + pts.join(" L "));
 
   // The world becomes clearer as missions are completed.
-  document.getElementById("map").dataset.progress = state.completed.length;
+  const map = document.getElementById("map");
+  const fogLevel = Math.max(0, 1 - state.completed.length / MISSIONS.length);
+  map.dataset.progress = state.completed.length;
+  map.style.setProperty("--fog-near-opacity", (0.78 * fogLevel).toFixed(3));
+  map.style.setProperty("--fog-far-opacity", (0.42 * fogLevel).toFixed(3));
 }
 
 function handleNodeClick(mission, nodeEl) {
@@ -214,24 +218,37 @@ function completeMission(mission) {
   renderAll(mission.id);
   walkNicoTo(nextNicoMission(mission));
   burstConfetti();
+  showRewardCelebration();
   showToast(`${mission.badgeEmoji} ¡Insignia "${mission.badgeName}" conseguida! +${mission.xp} XP`);
 }
 
 // ---------- Confetti burst ----------
 function burstConfetti() {
   const colors = ["#D9A441", "#2F6B3C", "#1E7A93", "#C1443A", "#F3E5C0"];
-  for (let i = 0; i < 22; i++) {
+  for (let i = 0; i < 64; i++) {
     const piece = document.createElement("span");
     piece.className = "confetti-piece";
-    piece.style.left = "50%";
-    piece.style.top = "40%";
+    piece.style.left = (42 + Math.random() * 16) + "%";
+    piece.style.top = (36 + Math.random() * 10) + "%";
     piece.style.background = colors[i % colors.length];
-    piece.style.setProperty("--tx", (Math.random() * 2 - 1) * 260 + "px");
-    piece.style.setProperty("--ty", (Math.random() * -200 - 60) + "px");
+    piece.style.width = (6 + Math.random() * 8) + "px";
+    piece.style.height = (8 + Math.random() * 11) + "px";
+    piece.style.setProperty("--tx", (Math.random() * 2 - 1) * 360 + "px");
+    piece.style.setProperty("--ty", (Math.random() * -260 - 75) + "px");
     piece.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
     document.body.appendChild(piece);
-    setTimeout(() => piece.remove(), 1100);
+    setTimeout(() => piece.remove(), 1300);
   }
+}
+
+let rewardTimer;
+function showRewardCelebration() {
+  const reward = document.getElementById("rewardCelebration");
+  reward.classList.remove("show");
+  void reward.offsetWidth;
+  reward.classList.add("show");
+  clearTimeout(rewardTimer);
+  rewardTimer = setTimeout(() => reward.classList.remove("show"), 2200);
 }
 
 // ---------- Toast ----------
@@ -292,8 +309,12 @@ function nextNicoMission(mission) {
 
 function setNicoPosition(mission) {
   const el = document.getElementById("nicoAvatar");
-  el.style.left = (mission.position.left + NICO_OFFSET.left) + "%";
-  el.style.top = (mission.position.top + NICO_OFFSET.top) + "%";
+  const left = mission.position.left + NICO_OFFSET.left;
+  const top = mission.position.top + NICO_OFFSET.top;
+  el.style.left = left + "%";
+  el.style.top = top + "%";
+  el.dataset.mapLeft = left;
+  el.dataset.mapTop = top;
 }
 
 function initNico() {
@@ -308,17 +329,35 @@ function initNico() {
 
 function walkNicoTo(mission) {
   const el = document.getElementById("nicoAvatar");
-  let frame = 0;
-  const walkTimer = setInterval(() => {
-    el.src = frame % 2 === 0 ? "assets/nico-walk1.png" : "assets/nico-walk2.png";
-    frame++;
-  }, 160);
-  setNicoPosition(mission);
-  setTimeout(() => {
-    clearInterval(walkTimer);
-    el.src = "assets/nico-celebrate.png";
-    setTimeout(() => { el.src = "assets/nico-idle.png"; }, 900);
-  }, 1150);
+  // The source frames have different transparent padding, which makes the
+  // explorer appear to resize while walking. Keep one consistent silhouette
+  // and animate the movement with CSS instead.
+  el.src = "assets/nico-idle.png";
+  el.classList.add("walking");
+  const fromLeft = Number(el.dataset.mapLeft);
+  const fromTop = Number(el.dataset.mapTop);
+  const toLeft = mission.position.left + NICO_OFFSET.left;
+  const toTop = mission.position.top + NICO_OFFSET.top;
+  const duration = 2300;
+  const startedAt = performance.now();
+  el.style.transition = "none";
+
+  function moveNico(now) {
+    const progress = Math.min(1, (now - startedAt) / duration);
+    const eased = progress < .5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+    el.style.left = (fromLeft + (toLeft - fromLeft) * eased) + "%";
+    el.style.top = (fromTop + (toTop - fromTop) * eased) + "%";
+    if (progress < 1) {
+      requestAnimationFrame(moveNico);
+      return;
+    }
+    el.dataset.mapLeft = toLeft;
+    el.dataset.mapTop = toTop;
+    el.classList.remove("walking");
+    el.classList.add("arrived");
+    setTimeout(() => el.classList.remove("arrived"), 520);
+  }
+  requestAnimationFrame(moveNico);
 }
 
 initNico();
@@ -329,11 +368,9 @@ const LUMA_IDLE_FRAMES = ["assets/luma-idle1.png", "assets/luma-idle2.png", "ass
   const el = document.getElementById("lumaAvatar");
   el.style.left = "83%";
   el.style.top = "6%";
-  let i = 0;
-  setInterval(() => {
-    i = (i + 1) % LUMA_IDLE_FRAMES.length;
-    el.src = LUMA_IDLE_FRAMES[i];
-  }, 700);
+  // Use a stable frame: the supplied frames have unequal canvases and looked
+  // like a jumpy slideshow. Its flight is now a smooth CSS float.
+  el.src = LUMA_IDLE_FRAMES[0];
 })();
 
 // ---------- Intro video gate ----------
