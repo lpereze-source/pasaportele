@@ -129,8 +129,8 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 .art-btn:hover { filter: brightness(1.12) saturate(1.08); transform: translateY(-2px); }
 .art-btn:active { transform: translateY(2px); filter: brightness(.95); }
 
-.btn-start { background-image: url('../assets/plank-green.png'); }
-.btn-video { background-image: url('../assets/plank-teal.png'); }
+.btn-start { background-image: none; }
+.btn-video { background-image: none; }
 
 
 .mascot-card {
@@ -508,7 +508,7 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
   margin-top: 8px;
   font-size: 1rem;
 }
-.btn-complete { background-image: url('../assets/plank-orange.png'); }
+.btn-complete { background-image: none; }
 .already-done {
   text-align: center;
   font-family: var(--font-display);
@@ -564,15 +564,41 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0 0 8px; color: var(--woo
 @keyframes luma-float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
 @keyframes reward-pop { 0% { opacity:0; transform:translate(-50%,-50%) scale(.52) rotate(-5deg); } 18%,76% { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(0); } 100% { opacity:0; transform:translate(-50%,-58%) scale(.92); } }
 
-/* Cache-proof final button treatment: each button uses one complete plank,
-   so its painted end caps can never separate from its text area. */
+/* The supplied plank PNGs are incomplete crops from a sprite sheet. Draw the
+   button surface in CSS so no transparent/cropped piece can offset its frame. */
 .art-btn {
   border: 0 !important;
   border-image: none !important;
   box-sizing: border-box !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-size: 100% 100% !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 4px solid #5a3218 !important;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 28%), repeating-linear-gradient(0deg, rgba(52,96,25,.20) 0 2px, transparent 2px 17px), linear-gradient(180deg, #76bd32, #3e7b1e) !important;
+  box-shadow: inset 0 2px rgba(255,244,187,.48), inset 0 -4px rgba(44,72,16,.42), 0 5px 0 #32190b, 0 9px 15px rgba(49,24,8,.28);
+}
+.art-btn::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: -1;
+  border: 2px solid rgba(255,217,115,.58);
+  border-radius: 8px;
+  pointer-events: none;
+}
+.art-btn::after {
+  content: "✦";
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,235,145,.72);
+  font-size: .9rem;
+  pointer-events: none;
+}
+.btn-video { background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 28%), repeating-linear-gradient(0deg, rgba(16,94,99,.18) 0 2px, transparent 2px 17px), linear-gradient(180deg, #47cbd0, #147e90) !important; }
+.btn-complete { background: linear-gradient(180deg, rgba(255,255,255,.24), transparent 28%), repeating-linear-gradient(0deg, rgba(153,62,10,.18) 0 2px, transparent 2px 17px), linear-gradient(180deg, #f99b2f, #cf5911) !important; }
 }
 
 /* ---------- Intro video gate ---------- */
